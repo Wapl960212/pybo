@@ -1,9 +1,9 @@
 from django.shortcuts import render,get_object_or_404, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.utils import timezone
 from .models import Question
-from .foms import QuestionForm
-
+from .foms import QuestionForm, AnswerForm
+import logging
 
 def question_create(request):
     '''질문 등록'''
@@ -22,8 +22,8 @@ def question_create(request):
             return redirect("pybo:index")
     else:
         form =QuestionForm()
-        context = {'form': form}
-        return render(request,'pybo/question_form.html', context)
+    context = {'form': form}
+    return render(request,'pybo/question_form.html', context)
 
 def boot_menu(request):
     return render(request,'pybo/menu.html')
@@ -36,11 +36,26 @@ def boot_list(request):
 
 
 def answer_create(request, question_id):
+    '''답변등록'''
     print('answer_create question_id:{}'.format(question_id))
     question = get_object_or_404(Question, pk=question_id)
 
-    question. answer_set.create(content=request.POST.get('content'), create_date=timezone.now())
-    return redirect('pybo:detail', question_id=question_id)
+    if request.method == 'POST':
+        form =AnswerForm(request.POST)
+        print('1.request.method:{}'.format(request.method))
+        if form.is_valid():
+            print('2.form.is_valid()'.format(form.is_valid()))
+            answer = form.save(commit=False)
+            answer.create_date = timezone.now()
+            answer.question = question
+            answer.save() #최종 저장
+            return redirect('pybo:detail',question_id=question.id)
+    else:
+        return HttpResponseNotAllowed('Post 만 사능 합니다.')
+
+    #form validation
+    context = {'question':question,'form':form}
+    return render(request,'pybo/question_detail.html',context)
 
 
 def detail(request,question_id):
@@ -56,10 +71,14 @@ def detail(request,question_id):
 
 
 def index(request):
-    print('index 에벨로출력')
+
+    logging.info('index fp벨로출력')
+    # print('index 에벨로출력')
     question_list = Question.objects.order_by('-create_date')
 
     context = {'question_list': question_list}
-    print()
+    logging.info('question_list:{}'.format(question_list))
+
+
     return render(request, 'pybo/question_list.html', context)
 

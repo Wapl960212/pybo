@@ -10,8 +10,34 @@
         <form method="post" action="{% url 'pybo:question_create' %}" class="post-form my-3">
             {% csrf_token %}
             <!-- form validation 기능-->
-            
+            {% if form.errors %}
+
+            <div class="alert alert-danger" role="alert">
+                {% for field in form %}
+                    {% if field.errors %}
+                        <div><strong>{{ field.label }}</strong></div>
+                        {{ field.errors }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
             <!-- form validation 기능 end-->
+            <div class="mb-3">
+                <label for="subject" class="col-form-label">제목</label>
+                <div class="">
+
+                    <input type="text" class="form-control" id="subject" name="subject"
+                        value="{{ form.subject.value|default_if_none:'' }}" >
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="content" class="col-form-label">내용</label>
+                <div class="">
+                    <textarea rows="10" class="form-control" name="content" id="content">{{ form.content.value|default_if_none:'' }}</textarea>
+                </div>
+            </div>
+
+            <!-- 모델 폼과 연결된 sub -->
             <button type="submit" class="btn btn-primary btn-sm">저장</button>
         </form>
     </div>

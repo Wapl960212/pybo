@@ -13,5 +13,5 @@ class Question(models.Model):
 class Answer(models.Model):
     #on_delete=models.CASCADE: 답변에 연관된 질문이 삭제되면 답변도 모두 삭제 하세요.
     question = models.ForeignKey(Question,on_delete=models.CASCADE)
-    content  = models.TextField() #글자수 제한이 없는
+    content = models.TextField() #글자수 제한이 없는
     create_date = models.DateTimeField()  # 날짜 + 시간
