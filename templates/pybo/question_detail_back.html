@@ -1,7 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <!--Bootstrap-->>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+    <script src="{% static 'common.js' %}"></script>
+    <script>
+        function doSave(){
+            console.log('doSave');
+            let frm = document.answer_frm;
+            let content = frm.content.value;
+            console.log('content'+content);
+            if(isEmpty(content)){
+                alert('내용을 입력 하세요');
+                frm.content.focus();
+                return ;
+            }
 
+            //서버로 전송
+            frm.submit();
+        }
 
-{% extends 'base.html' %}
-{% block content %}
+    </script>
+    <title>질문 답변 등록</title>
+</head>
+<body>
 
 <!--container-->
     <div class="container">
@@ -51,4 +76,6 @@
 <!--답변 등록 end-->
     </div>
     <!--container end-->
-{% endblock %}
+
+</body>
+</html>
