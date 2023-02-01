@@ -9,7 +9,9 @@
 
         <form method="post" action="{% url 'pybo:question_create' %}" class="post-form my-3">
             {% csrf_token %}
-            {{ form.as_p }}
+            <!-- form validation 기능-->
+            
+            <!-- form validation 기능 end-->
             <button type="submit" class="btn btn-primary btn-sm">저장</button>
         </form>
     </div>
