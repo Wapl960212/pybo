@@ -5,8 +5,11 @@
     <div class="container">
         <!-- 제목 -->
         <div class="text-start mb-5">
-            <h2 class="border-bottom py-2">질문 목록</h2>
+            <h2 class="border-bottom py-2">무비 차트</h2>
         </div>
+        {{title}}<br/>
+        {{reserve}}<br/>
+        {{poster}}
         <!-- 제목 end -->
         <!-- 검색, 버튼 -->
         <div class="d-grid gap-2 d-md-flex justify-content-end">
@@ -52,41 +55,21 @@
                 </tr>
             </thead>
             <tbody>
+                {% if title %}
+                {% for t in title %}
                 <tr>
                     <td class="text-center">1</td>
-                    <td class="text-start">제목01</td>
+                    <td class="text-start">{{t}}</td>
                     <td class="text-center">와플</td>
                     <td class="text-center">2022/02/12</td>
                     <td class="text-end">5</td>
                 </tr>
-                <tr>
-                    <td class="text-center">1</td>
-                    <td class="text-start">제목01</td>
-                    <td class="text-center">와플</td>
-                    <td class="text-center">2022/02/12</td>
-                    <td class="text-end">5</td>
-                </tr>
-                <tr>
-                    <td class="text-center">1</td>
-                    <td class="text-start">제목01</td>
-                    <td class="text-center">와플</td>
-                    <td class="text-center">2022/02/12</td>
-                    <td class="text-end">5</td>
-                </tr>
-                <tr>
-                    <td class="text-center">1</td>
-                    <td class="text-start">제목01</td>
-                    <td class="text-center">와플</td>
-                    <td class="text-center">2022/02/12</td>
-                    <td class="text-end">5</td>
-                </tr>
-                <tr>
-                    <td class="text-center">1</td>
-                    <td class="text-start">제목01</td>
-                    <td class="text-center">와플</td>
-                    <td class="text-center">2022/02/12</td>
-                    <td class="text-end">5</td>
-                </tr>
+                {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="99">no data found.</td>
+                    </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>
