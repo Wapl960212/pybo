@@ -1,5 +1,6 @@
 
 {% extends 'base.html' %}
+{% load pybo_filter %}
 {% block content %}
 <!--container-->
     <div class="container">
@@ -23,7 +24,7 @@
             {% if question_list %}
                 {% for question in question_list %}
                     <tr>
-                        <td class="text-center">{{forloop.counter}}</td>
+                        <td class="text-center">{{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}</td>
                         <td class="text-start"><a href="{% url 'pybo:detail' question.id %}">{{question.subject|lower}}<a></td>
                         <td class="text-center">{{question.create_date|date:"Y-m-d"}}</td>
                     </tr>
@@ -34,5 +35,39 @@
             </tbody>
         </table>
         {% csrf_token %}
+        <ul class="pagination justify-content-center">
+            {% if question_list.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{question_list.previous_page_number}}"><<</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" aria-disabled="true" href="#"><<</a>
+            </li>
+            {% endif %}
+            {% for page_number in question_list.paginator.page_range %}
+
+            {% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
+            {% if page_number  == question_list.number %}
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="#">{{page_number}}</a>
+            </li>
+            {% else %}
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="?page={{page_number}}">{{page_number}}</a>
+            </li>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            {% if question_list.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{question_list.next_page_number}}">>></a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" tabindex="-1" aria-disabled="true" href="#">>></a>
+            </li>
+            {% endif %}
+        </ul>
     </div>
 {% endblock %}

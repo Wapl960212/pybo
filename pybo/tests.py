@@ -8,20 +8,61 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 
+from selenium import webdriver
+import time
+from selenium.webdriver.common.by import By
+
 
 class Crawling(unittest.TestCase):
     def setUp(self):
-        logging.info('setUp')
-
-    def tearDown(self):
+        self.brower = webdriver.Firefox(executable_path='C:/projects/mysite/geckodriver.exe')
+        print('setup')
         pass
 
+    def tearDown(self):
+        logging.info('tearDown')
+        #btn =self.brower.find_element(By.ID, 'submit_btn')
+        pass
 
-    def naver_stock(self):
-        '''주식 크롤링'''
-        url = 'https://finance.naver.com/item/main.naver?code=005380'
-        for i in range(1,4,1):
-            self.call
+    @unittest.skip('cgv 정보 이미지')
+    def test_naver(self):
+        self.brower("https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com")
+
+        id_textinput = self.brower.find_element(By.ID,'id')
+        id_textinput.send_keys('good_day')
+
+        id_textinput = self.brower.find_element(By.ID, 'pw')
+        id_textinput.send_keys('4321')
+
+        id_login = self.brower.find_element(By.ID, 'log.login ')
+        id_login.click()
+        pass
+
+        from pybo.models import Question
+        from django.utils import timezone
+        q = Question(subject='금요일 입니다.[%3d]' % i, content='즐거운 금용일!', create_date=timezone.now())
+        q.save()
+    @unittest.skip('cgv 정보 이미지')
+    def test_selenium(self):
+        #self.brower = webdriver.Firefox(executable_path='C:/projects/mysite/geckodriver')
+        self.brower.get('http://192.168.55.136:8000/pybo/')
+        print('self.brower.title:{}'.format(self.brower.title))
+        self.assertIn('Pybo',self.brower.title)
+
+        content_textarea=self.brower.find_element(By.ID,'content')
+        content_textarea.send_keys('오늘은 즐거운 금요일')
+
+        btn = self.brower.find_element(By.ID,'submit_btn')
+        btn.click()
+        pass
+    @unittest.skip('cgv 정보 이미지')
+    def test_zip(self):
+        intergers =[1,2,3]
+        letters =['a','b','c']
+        floats =[4.0,8.0,10.0]
+        zipped=zip(intergers,letters,floats)
+        list_data =list(zipped)
+        print('list_data:{}'.format(list_data))
 
 
     @unittest.skip('cgv 정보 이미지')
