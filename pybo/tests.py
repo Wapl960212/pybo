@@ -8,10 +8,12 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 
+
 from selenium import webdriver
 import time
 from selenium.webdriver.common.by import By
-
+import pyperclip
+from selenium.webdriver.common.keys import Keys
 
 class Crawling(unittest.TestCase):
     def setUp(self):
@@ -22,6 +24,30 @@ class Crawling(unittest.TestCase):
     def tearDown(self):
         logging.info('tearDown')
         #btn =self.brower.find_element(By.ID, 'submit_btn')
+        pass
+
+
+    def test_clipboard_naver(self):
+        '''clipboard를 통한 네이버 로그인'''
+        self.brower.get("https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com")
+        user_id='아이디'
+        user_pw='비번'
+
+        #아이디
+        id_textinput =self.brower.find_element(By.ID,'id')
+        id_textinput.click()
+        pyperclip.copy(user_id)
+        id_textinput.send_keys(Keys.CONTROL,'v') #클립보드에서 id
+        time.sleep(1)
+
+        pw_textinput = self.brower.find_element(By.ID,'pw')
+        pw_textinput.click()
+        pyperclip.copy(user_pw)
+        pw_textinput.send_keys(Keys.CONTROL, 'v')
+        time.sleep(1)
+
+        btn_login=self.brower.find_element(By.ID, 'log.login')
+        btn_login.click()
         pass
 
     @unittest.skip('cgv 정보 이미지')

@@ -41,16 +41,7 @@
 <!--답변 등록-->
         <form action="{% url 'pybo:answer_create' question.id %}" method="post" class="my-3" name="answer_frm" >
             {% csrf_token %}
-            {% if form.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {% for field in form %}
-                        {% if field.errors %}
-                            <div><strong>{{ field.label }}</strong></div>
-                            {{ field.errors }}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endif %}
+            {% include "form_errors.html" %}
                 <div class="mb-3 row">
                     <label for="content" class="col-form-label">내용</label>
                     <div class="">
