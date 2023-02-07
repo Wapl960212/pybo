@@ -9,7 +9,10 @@ class Question(models.Model):
     create_date = models.DateTimeField() #날짜 + 시간
 
     #author필드 추가: 글쓴이
-    author = models.ForeignKey(User,on_delete=models.CASCADE) #user테이블에 사용자 정보가 삭제되면 Question 테이블 user도 모두 삭제
+    author = models.ForeignKey(User, on_delete=models.CASCADE) #user테이블에 사용자 정보가 삭제되면 Question 테이블 user도 모두 삭제
+
+    #수정일시 추가
+    modify_date =models.DateTimeField(null=True, blank=True)
 
 
     def __str__(self):
@@ -20,3 +23,5 @@ class Answer(models.Model):
     question = models.ForeignKey(Question,on_delete=models.CASCADE)
     content = models.TextField() #글자수 제한이 없는
     create_date = models.DateTimeField()  # 날짜 + 시간
+
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
