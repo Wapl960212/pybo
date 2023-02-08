@@ -25,3 +25,5 @@ class Answer(models.Model):
     create_date = models.DateTimeField()  # 날짜 + 시간
 
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    # 수정일시 추가
+    modify_date = models.DateTimeField(null=True, blank=True)
