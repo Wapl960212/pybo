@@ -19,6 +19,12 @@ from ..models import Question
 #crtl+alt+o(alpa) : import정리
 
 @login_required(login_url='common:login')
+def question_vote(request, question_id):
+    logging.info('1.question_vote, question_id:{}'.format(question_id))
+    pass
+
+
+@login_required(login_url='common:login')
 def question_modify(request, question_id):
     '''질문 수정 : login필수'''
     logging.info('1.question-modify')

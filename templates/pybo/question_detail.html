@@ -38,7 +38,15 @@
                         <div>{{question.create_date}}</div>
                     </div>
                 </div>
+                <!--질문 수정-->
                 <div class="my-3">
+                    <!--좋아요-->
+                    <a href="javascript:void(0);"
+                            data-uri="{% url 'pybo:question_vote' question.id %}" class="recommend btn btn-sm btn-outline-secondary">
+                        좋아요
+                        <span class="badge rounded-pill bg-success">{{question.voter.count}}</span>
+                    </a>
+
                     {% if question.author == request.user %}
                         <a href="{% url 'pybo:question_modify' question.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
                         <a href="javascript:void(0);" class="delete btn btn-sm btn-outline-secondary"
@@ -119,6 +127,18 @@
                         console.log('삭제하시겠습니까?')
                         //url호출
                         console.log('this.dateset.url:'+this.dataset.uri);
+                        location.href = this.dataset.uri;
+                    }
+                });
+            });
+
+            //question: 좋아요
+            const recommend_elements = document.querySelectorAll(".recommend");
+            Array.from(recommend_elements).forEach(function(element){
+                element.addEventListener('click',function(){
+                    console.log('recommend click');
+                    if(confirm('좋아요 하시겠습니까')){
+                        console.log('this.dataset.uri:'+this.dataset.uri);
                         location.href = this.dataset.uri;
                     }
                 });

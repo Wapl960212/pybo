@@ -9,11 +9,13 @@ class Question(models.Model):
     create_date = models.DateTimeField() #날짜 + 시간
 
     #author필드 추가: 글쓴이
-    author = models.ForeignKey(User, on_delete=models.CASCADE) #user테이블에 사용자 정보가 삭제되면 Question 테이블 user도 모두 삭제
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_question') #user테이블에 사용자 정보가 삭제되면 Question 테이블 user도 모두 삭제
 
     #수정일시 추가
     modify_date =models.DateTimeField(null=True, blank=True)
 
+    #추천인
+    voter = models.ManyToManyField(User, related_name='voter_question')
 
     def __str__(self):
         return self.subject

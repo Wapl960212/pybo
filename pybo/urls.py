@@ -30,6 +30,8 @@ urlpatterns =[
     path('question/modify/<int:question_id>', question_views.question_modify, name='question_modify'),
     #question_delete
     path('question/delete/<int:question_id>', question_views.question_delete, name='question_delete'),
+    #question_vote
+    path('question/vote/<int:question_id>', question_views.question_vote, name='question_vote'),
 
     #boot
     path('boot/menu',boot_views.boot_menu,name='boot_menu'),
