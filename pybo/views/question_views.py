@@ -21,7 +21,15 @@ from ..models import Question
 @login_required(login_url='common:login')
 def question_vote(request, question_id):
     logging.info('1.question_vote, question_id:{}'.format(question_id))
-    pass
+    question = get_object_or_404(Question, pk=question_id)
+
+    #본인글은 추천못함
+    if request.user == question.author:
+        messages.error(request,'본인이 작성한글은 추천이 안됨')
+    else:
+        question.voter.add(request.user)
+
+    return redirect('pybo:detail',question_id=question_id)
 
 
 @login_required(login_url='common:login')
@@ -46,6 +54,7 @@ def question_modify(request, question_id):
             question.modify_date = timezone.now()
             question.save()
             return redirect("pybo:detail",question_id=question.id)
+
     else:
         form = QuestionForm(instance=question)
     context = {'form':form}
