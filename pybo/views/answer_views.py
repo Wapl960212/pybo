@@ -29,7 +29,7 @@ def answer_vote(request, answer_id):
 
     return redirect('{}#answer_{}'.
                     format(resolve_url('pybo:detail', question_id=answer.question.id), answer.id))
-   # return redirect('pybo:detail', question_id=answer.question.id)12
+   # return redirect('pybo:detail', question_id=answer.question.id)123
 
     pass
 @login_required(login_url='common:login')
