@@ -21,6 +21,16 @@ from ..models import Question
 @login_required(login_url='common:login')
 def question_vote(request, question_id):
     logging.info('1.question_vote, question_id:{}'.format(question_id))
+    question= get_object_or_404(Question, pk=question_id)
+
+    #본인글은 못하게
+    if request.user == question.author:
+        messages.error(request,'본인이 작성한 글은 추천할수 없습니다.')
+    else:
+        question.voter.add(request.user)
+
+    return redirect('pybo:detail',question_id=question.id)
+
     pass
 
 

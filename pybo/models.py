@@ -26,6 +26,8 @@ class Answer(models.Model):
     content = models.TextField() #글자수 제한이 없는
     create_date = models.DateTimeField()  # 날짜 + 시간
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_answer')
     # 수정일시 추가
     modify_date = models.DateTimeField(null=True, blank=True)
+    #추천인
+    voter = models.ManyToManyField(User, related_name='voter_answer')
