@@ -19,12 +19,12 @@ from django.utils import timezone
 from ..foms import QuestionForm, AnswerForm
 from ..models import Question, Answer
 
-#crtl+alt+o(alpa) : import정리
 
-def detail(request,question_id):
+# crtl+alt+o(alpa) : import정리
 
+def detail(request, question_id):
     print('1.question_id:{}'.format(question_id))
-    #question=Question.objects.get(id=question_id)
+    # question=Question.objects.get(id=question_id)
     question = get_object_or_404(Question, pk=question_id)
 
     print('2.question:{}'.format(question))
@@ -32,34 +32,42 @@ def detail(request,question_id):
     return render(request, 'pybo/question_detail.html', context)
 
 
-
 def index(request):
+    page = request.GET.get('page', '1')
+    kw = request.GET.get('kw', '')
+    div = request.GET.get('div', '')
+    size = request.GET.get('size', '10')
 
-    logging.info('index fp벨로출력')
     # print('index 에벨로출력')
-
-    page=request.GET.get('page','1')
 
     question_list = Question.objects.order_by('-create_date')
 
-    paginator=Paginator(question_list,10)
-    page_obj=paginator.get_page(page)
+    if '10' == div:
+        logging.info('if 10')
+        question_list = question_list.filter(subject__contains=kw)
+    elif '20' == div:
+        logging.info('elif 20')
+        question_list = question_list.filter(content__contains=kw)
+    elif '30' == div:
+        logging.info('elif 30')
+        question_list = question_list.filter(author__username__contains=kw)
 
-#    paginator.count : 전체
-#   paginator.per_page: 계시물수
-#    paginator.page_range:페이지 범위
+    paginator = Paginator(question_list, size)
+    page_obj = paginator.get_page(page)
 
-#    number : 현제 페이지번호
-#    previous_page_number:이전
-#    next_page_number:다음 페이지
-#    has_previous:이전
-#    has_next:다음
-#    start_index:이작
-#    end_index:끝 인덱스
+    #    paginator.count : 전체
+    #   paginator.per_page: 계시물수
+    #    paginator.page_range:페이지 범위
 
-    context = {'question_list': page_obj}
+    #    number : 현제 페이지번호
+    #    previous_page_number:이전
+    #    next_page_number:다음 페이지
+    #    has_previous:이전
+    #    has_next:다음
+    #    start_index:이작
+    #    end_index:끝 인덱스
+
+    context = {'question_list': page_obj, 'kw': kw, 'page': page, 'div': div}
     logging.info('question_list:{}'.format(page_obj))
 
-
     return render(request, 'pybo/question_list.html', context)
-
