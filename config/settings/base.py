@@ -167,29 +167,23 @@ LOGGING = {
 	            'level': 'INFO',
 	            'filters': ['require_debug_true'],
 	            'class': 'logging.StreamHandler',
-<<<<<<< HEAD:config/settings/base.py
 	        	'formatter': 'format1',
-=======
 				'formatter': 'format1',
->>>>>>> efa7429a808fbbe21c0a51675073b5862a297294:config/settings.py
 	        },
 	    },
 	    'loggers': {
 			#sql 로그
-<<<<<<< HEAD:config/settings/base.py
 			"django.db.backends": {
 	            'handlers': ['file','console'],
 	            'propagate': False,
 	            'level': 'INFO',
 	        },
-=======
+
 			"django.db.backends":{
 'handlers': ['file','console'],
 	            'propagate': False,
 	            'level': 'INFO',
 			},
-
->>>>>>> efa7429a808fbbe21c0a51675073b5862a297294:config/settings.py
 	        #종류
 	        'django.server': {
 	            'handlers': ['file','console'],
