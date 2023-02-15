@@ -1,172 +1,168 @@
 
+  {% extends 'base.html' %}
+  {% load pybo_filter %}
+  {% block content %}
+  <!-- container -->
+  <div class="container">
+      <!--질문 py: 상하패딩!-->
+      <h2 class="border-bottom py-2">{{question.subject}}</h2>
 
-{% extends 'base.html' %}
-{% load pybo_filter %}
-{% block content %}
+      <div class="card my-3">
+          <!-- pre-line
+                연속 공백을 하나로 합침. 줄바꿈은 개행 문자와 <br> 요소에서 일어나며,
+                한 줄이 너무 길어서 넘칠 경우 자동으로 줄을 바꿉니다.
+          -->
+          <!--  message표시 -->
+          {% if messages %}
+          <div class="alert alert-danger" role="alert">
+              {% for message in  messages%}
+                <strong>{{message.tags}}</strong>
+                <ul>
+                    <li>{{message.message}}</li>
+                </ul>
+              {% endfor %}
+          </div>
+          {% endif %}
+          <!--  message표시 end-->
+          <div class="card-text" >{{ question.content|mark }}</div>
+          <div class="d-flex justify-content-end">
+              <!--수정자, 수정일 -->
+              {% if question.modify_date %}
+              <div class="badge bg-light text-dark p-2 text-start mx-3">
+                  <div class="mb-2">수정일</div>
+                  <div>{{question.modify_date}}</div>
+              </div>
+              {% endif %}
+              <!--수정자, 수정일end -->
 
-<!--container-->
-    <div class="container">
-        <div>
-            <!--질문-->
-            <h2 class="border-bottom py-2">{{ question.subject }}</h2>
+              <!--등록자, 등정일 -->
+              <div class="badge bg-light text-dark p-2 text-start">
+                  <div class="mb-2">{{question.author.username}}</div>
+                  <div>{{question.create_date}}</div>
+              </div>
+              <!--등록자, 등정일end -->
+          </div>
+          <!--  질문 수정 -->
+          <div class="my-3">
+              <!-- 좋아요 -->
+              <a href="javascript:void(0);"
+                 data-uri="{% url 'pybo:question_vote' question.id %}" class="recommend btn btn-sm btn-outline-secondary">
+                  좋아요<span class="badge rounded-pill bg-success">{{question.voter.count}}</span>
+              </a>
 
-            <div class="card my-3">
-                <!--message표시-->
-                {% if messages %}
-                <div class="alert alert-danger" role="alert">
-                    {% for messages in messages %}
-                        <strong>{{ messages.tags }}</strong>
-                        <ul>
-                            <li>{{ messages.message }}</li>
-                        </ul>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                <!--message표시 end-->
-                <div class="card-text">{{ question.content|mark }}</div>
-                <div class="d-flex justify-content-end">
-                    <!--수정자 수정일-->
-                    {% if question.modify_date %}
-                    <div class="badge bg-light text-dark p-2 text-start">
-                        <div class="mb-2">수정일</div>
-                        <div>{{question.modify_date}}</div>
-                    </div>
-                    {% endif %}
-                    <!--수정자 수정일 end-->
+              {% if question.author == request.user %} <!--글쓴이와 로그인한 사용자가 동일 하면 -->
+                <a href="{% url 'pybo:question_modify' question.id  %}" class="btn btn-sm btn-outline-secondary">수정</a>
+                <a href="javascript:void(0);" data-uri="{% url 'pybo:question_delete' question.id %}" class="delete btn btn-sm btn-outline-secondary">삭제</a>
+              {% endif %}
+          </div>
 
-                    <div class="badge bg-light text-dark p-2 text-start">
-                        <div class="mb-2">{{question.author.username}}</div>
-                        <div>{{question.create_date}}</div>
-                    </div>
-                </div>
-                <!--질문 수정-->
-                <div class="my-3">
-                    <!--좋아요-->
-                    <a href="javascript:void(0);"
-                            data-uri="{% url 'pybo:question_vote' question.id %}" class="recommend btn btn-sm btn-outline-secondary">
-                        좋아요
-                        <span class="badge rounded-pill bg-success">{{question.voter.count}}</span>
-                    </a>
+      </div>
+      <!--질문 end-------------------------------------->
 
-                    {% if question.author == request.user %}
-                        <a href="{% url 'pybo:question_modify' question.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
-                        <a href="javascript:void(0);" class="delete btn btn-sm btn-outline-secondary"
-                            data-uri="{% url 'pybo:question_delete' question.id %}" >삭제</a>
-                    {% endif %}
-                </div>
-            </div>
-            <!--질문 end-->
-        </div>
-    <!--container end-->
-    <!--답변-->
-        <h5 class="border-bottom py-2 my-3">{{question.answer_set.count}} 개의 답변이 있습니다.</h5>
-        {% for answer in question.answer_set.all %}
-            <div class="card my-3">
-                <!--pre-line
-                    연속 공백을 하나오 합침. 줄바꿈은 개행 문자와 <dr> 요소에서 일어나며,
-                    안줄이 너무기러서 넘침 결루 자동으로 줄은 바꾼다
-                -->
-<<<<<<< HEAD
-                <!---->
-=======
-                <!--answer_+answer.id-->
->>>>>>> efa7429a808fbbe21c0a51675073b5862a297294
-                <a id="answer_{{answer.id}}"></a>
-                <div class="card-text" style="white-space pre-line">{{answer.content}}</div>
-                <div class="d-flex justify-content-end">
-                <!--수정자 수정일-->
-                    {% if answer.modify_date %}
-                    <div class="badge bg-light text-dark p-2 text-start">
-                        <div class="mb-2">수정일</div>
-                        <div>{{answer.modify_date}}</div>
-                    </div>
-                    {% endif %}
-                    <!--수정자 수정일 end-->
+      <!--답변 -->
+      <h5 class="border-bottom py-2 my-3">{{question.answer_set.count}} 개의 답변이 있습니다.</h5>
+      {% for answer in question.answer_set.all %}
+      <div class="card my-3">
+          <!-- pre-line
+                연속 공백을 하나로 합침. 줄바꿈은 개행 문자와 <br> 요소에서 일어나며,
+                한 줄이 너무 길어서 넘칠 경우 자동으로 줄을 바꿉니다.
+          -->
+          <!-- answer_+answer.id -->
+          <a id="answer_{{answer.id}}"></a>
+          <div class="card-text" style="white-space pre-line;">{{answer.content}}</div>
+          <!-- d-flex : bootstrap flexbox -->
+          <div class="d-flex justify-content-end">
+              <!--수정자, 수정일 -->
+              {% if answer.modify_date %}
+              <div class="badge bg-light text-dark p-2 text-start mx-3">
+                  <div class="mb-2">수정일</div>
+                  <div>{{answer.modify_date}}</div>
+              </div>
+              {% endif %}
+              <!--수정자, 수정일end -->
 
-                    <div class="badge bg-light text-dark p-2 text-start">
-                        <div class="mb-2">{{answer.author.username}}</div>
-                        <div>{{answer.create_date}}</div>
-                    </div>
-                </div>
-                <!--질문수정-->
-                <div class="my-3">
-                    <!--좋아요-->
-                    <a href="javascript:void(0);"
-                       data-uri="{% url 'pybo:answer_vote' answer.id %}" class="recommend btn btn-sm btn-outline-secondary">
-<<<<<<< HEAD
-                        좋아요
-                        <span class="badge rounded-pill bg-success">{{answer.voter.count}}</span>
-                    </a>
+              <div class="badge bg-light text-dark p-2 text-start">
+                  <div class="mb-2">{{answer.author.username}}</div>
+                  <div>{{answer.create_date}}</div>
+              </div>
+          </div>
+          <div class="my-3">
+              <!-- 좋아요 -->
+              <a href="javascript:void(0);"
+                 data-uri="{% url 'pybo:answer_vote' answer.id %}" class="recommend btn btn-sm btn-outline-secondary">
+                  좋아요<span class="badge rounded-pill bg-success">{{answer.voter.count}}</span>
+              </a>
 
-                    {% if request.user == answer.author %}
-                    <a href="{% url 'pybo:answer_modify' answer.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
-=======
-                        좋아요<span class="badge rounded-pill bg-success">{{answer.voter.count}}</span>
-                    </a>
-                    {% if request.user == answer.author %}
-                    <a href="{% url 'pybo:answer_vote' answer.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
->>>>>>> efa7429a808fbbe21c0a51675073b5862a297294
-                    <a href="#" class="delete btn btn-sm btn-outline-secondary"
-                        data-uri="{% url 'pybo:answer_delete' answer.id %}">삭제</a>
-                    {% endif %}
-                </div>
+              {% if request.user == answer.author %} <!-- 본인 글만 수정 삭제 -->
+              <a href="{% url 'pybo:answer_modify' answer.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
+              <a href="#" class="delete btn btn-sm btn-outline-secondary"
+                     data-uri="{% url 'pybo:answer_delete' answer.id %}"
+              >삭제</a>
 
-            </div>
-        {% endfor %}
-<!--답변 end-->
+              {% endif %}
 
-<!--답변 등록-->
-        <form action="{% url 'pybo:answer_create' question.id %}" method="post" class="my-3" name="answer_frm" >
-            {% csrf_token %}
-            {% include "form_errors.html" %}
-                <div class="mb-3 row">
-                    <label for="content" class="col-form-label">내용</label>
-                    <div class="">
-                        <textarea rows="10" class="form-control" name="content" id="content"></textarea>
-                    </div>
-                </div>
-            <!--<input type="button" value="답변등록" class="btn btn-primary btn-sm" onclick="javascript:doSave()">-->
-            <input type="submit" value="답변등록" class="btn btn-primary btn-sm" id="submit_btn">
-        </form>
+          </div>
+      </div>
+      {% endfor %}
+      <!--답변 end ------------------------------------->
 
-<!--답변 등록 end-->
+      <!--답변 등록-->
+      <form action="{% url 'pybo:answer_create' question.id %}" method="post" class="my-3" name="answer_frm">
+        {% csrf_token %}
+        <!-- form validation기능 -->
+        {% include "form_errors.html" %}
+        <!-- form validation기능 end -->
+          <div class="mb-3">
+            <label for="content" class="col-form-label">내용</label>
+            <textarea   rows="10"  class="form-control" name="content" id="content"></textarea>
+          </div>
+          <!--<input type="button" value="답변등록" class="btn btn-primary btn-sm" onclick="javascript:doSave();">-->
+          <input type="submit" value="답변등록" class="btn btn-primary btn-sm" id="submit_btn">
+      </form>
+      <!--답변 등록 end---------------------------------->
 
-    </div>
-    <!--container end-->
-{% endblock %}
+  </div>
+  <!-- container end----------------------------------->
+  {% endblock%}
 
-    {% block script %}
-        <script>
-            //삭제
-            //const delete_elements = document.getElementsByClassName("delete");
-            //배열 : querySelectorAll
-            //단건 : querySelector
-            const delete_elements = document.querySelectorAll(".delete");
-            Array.from(delete_elements).forEach(function(element){
-                //click event 감지
-                element.addEventListener('click',function(){
+  {% block script %}
+     <script>
+        //삭제: getElementsByClassName 'delete' 클래스 이름으로 element찾기
+
+        //Array.from() 메서드는 유사 배열 객체(array-like object)나
+        //반복 가능한 객체(iterable object)를 얕게 복사해 새로운Array 객체를 만듭니다.
+
+        //const delete_elements = document.getElementsByClassName("delete");
+        //#class :. , id:#
+        //배열: querySelectorAll
+        //단건: querySelector
+        const delete_elements = document.querySelectorAll(".delete");
+        Array.from(delete_elements).forEach(function(element){
+               //click event 감지
+               element.addEventListener('click',function(){
                     console.log('delete click');
-                    if(confirm('삭제하시겠습니까?')){
-                        console.log('삭제하시겠습니까?')
-                        //url호출
-                        console.log('this.dateset.url:'+this.dataset.uri);
-                        location.href = this.dataset.uri;
+                    if(confirm('삭제 하시겠습니까?')){
+                       console.log('삭제 하시겠습니까?');
+                       //url호출
+                       console.log('this.dataset.uri:'+this.dataset.uri);
+                       location.href = this.dataset.uri;
                     }
-                });
+               });
+        });
+
+        //question: 좋아요 recommend
+        const recommend_elements = document.querySelectorAll(".recommend");
+        Array.from(recommend_elements).forEach(function(element){
+            element.addEventListener('click',function(){
+                 console.log('recommend click');
+                 if(confirm('좋아요 하시겠습니까?')){
+                     console.log('this.dataset.uri:'+this.dataset.uri);
+                     location.href = this.dataset.uri;
+                 }
+
             });
-
-            //question: 좋아요
-            const recommend_elements = document.querySelectorAll(".recommend");
-            Array.from(recommend_elements).forEach(function(element){
-                element.addEventListener('click',function(){
-                    console.log('recommend click');
-                    if(confirm('좋아요 하시겠습니까')){
-                        console.log('this.dataset.uri:'+this.dataset.uri);
-                        location.href = this.dataset.uri;
-                    }
-                });
-            });
+        });
 
 
-        </script>
-    {% endblock %}
+    </script>
+  {% endblock %}

@@ -1,37 +1,29 @@
-
-{% extends 'base.html' %}
-{% block content %}
-    <!-- container -->
+    {% extends 'base.html' %}
+    {% block content %}
+    <!-- container-->
     <div class="container">
-
         <!-- 제목 -->
         <div class="text-start mb-5">
-            <h2 class="border-bottom py-2 p-3">무비 차트</h2>
+            <h2 class="border-bottom ">무비차트</h2>
         </div>
-        {% if context %}
-            <div class="row">
-            {% for t,r,p in context %}
-
-                <div class="card col-3" style="width: 18rem;">
-                  <img src="{{p}}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">{{t}}, {{r}}</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
-                  </div>
-                </div>
-            {% endfor %}
-            </div>
-            {% else %}
-                <p>
-                    no data found
-                </p>
-            {% endif %}
-
+                {% if context %}
+                    <div class="row">
+                {% for t,r,p in context %}
+                    <div class="card col-3 p-3" style="width: 18rem;">
+                      <img src="{{p}}" class="card-img-top" alt="...">
+                      <div class="card-body">
+                        <h5 class="card-title">{{t}},{{r}}</h5>
+                        <p class="card-text"></p>
+                        <a href="#" class="btn btn-primary">예매하기</a>
+                      </div>
+                    </div>
+                {% endfor%}
+                    </div>
+                {% else %}
+                    <p>
+                        no data found.
+                    </p>
+                {% endif %}
     </div>
-
-
-
-
-    <!-- container end -->
-{% endblock %}
+    <!-- container end-->
+    {% endblock %}

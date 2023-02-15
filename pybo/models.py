@@ -27,12 +27,6 @@ class Answer(models.Model):
     content  = models.TextField() #글자수 제한이 없는
     create_date = models.DateTimeField()  # 날짜 + 시간
 
-<<<<<<< HEAD
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_answer')
-    # 수정일시 추가
-    modify_date = models.DateTimeField(null=True, blank=True)
-    #추천인
-=======
     # author필드 추가: 글쓴이
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_answer')
     #입력필드에 null 허용하기
@@ -41,5 +35,4 @@ class Answer(models.Model):
     #수정일시 추가
     modify_date = models.DateTimeField(null=True,blank=True)
     # 추천인
->>>>>>> efa7429a808fbbe21c0a51675073b5862a297294
     voter = models.ManyToManyField(User, related_name='voter_answer')
