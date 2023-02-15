@@ -52,11 +52,19 @@
                         <td class="text-center">{{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}</td>
                         <td class="text-start">
                             {% if question.voter.all.count > 0 %}
+<<<<<<< HEAD
                                 <span class="badge rounded-pill bg-success px-2 py-1">
                                     {{ question.voter.all.count }}
                                 </span>
                             {% endif %}
                         </td>
+=======
+                                <span class="badge rounded-pill bg-success">
+                                    {{ question.voter.all.count }}
+                                </span>
+                            {% endif %}
+                        </td> <!--좋아요-->
+>>>>>>> efa7429a808fbbe21c0a51675073b5862a297294
                         <td class="text-start"><a href="{% url 'pybo:detail' question.id %}">{{question.subject|lower}}<a>
                             {% if question.answer_set.count > 0 %}
                                 <span class="text-danger small mx-2">{{question.answer_set.count}}</span>
@@ -67,7 +75,9 @@
                     </tr>
                 {% endfor %}
             {% else %}
-
+                <tr>
+                    <td colspan="99">질문이 없습니다</td>
+                </tr>
             {% endif %}
             </tbody>
         </table>
@@ -102,6 +112,7 @@
             {% endif %}
             {% endif %}
             {% endfor %}
+
             {% if question_list.has_next %}
             <li class="page-item">
                 <a class="page-link" data-page="{{question_list.next_page_number}}"

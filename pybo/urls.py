@@ -25,6 +25,10 @@ urlpatterns =[
     path('answer/delete/<int:answer_id>', answer_views.answer_delete, name='answer_delete'),
     #question_vote
     path('answer/vote/<int:answer_id>', answer_views.answer_vote, name='answer_vote'),
+<<<<<<< HEAD
+=======
+
+>>>>>>> efa7429a808fbbe21c0a51675073b5862a297294
 
     #question_create
     path('question/create/', question_views.question_create, name='question_create'),

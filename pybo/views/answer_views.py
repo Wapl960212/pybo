@@ -21,6 +21,7 @@ from ..models import Question, Answer
 def answer_vote(request, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
 
+<<<<<<< HEAD
     # 본인글은 못하게
     if request.user == answer.author:
         messages.error(request, '본인이 작성한 글은 추천할수 없습니다.')
@@ -32,6 +33,22 @@ def answer_vote(request, answer_id):
    # return redirect('pybo:detail', question_id=answer.question.id)
 
     pass
+=======
+
+@login_required(login_url='common:login')
+def answer_vote(request, answer_id):
+    logging.info('1.answer_vote:{}'.format(answer_id))
+    answer = get_object_or_404(Answer, pk=answer_id)
+
+    # 본인글은 추천못함
+    if request.user == answer.author:
+        messages.error(request, '본인이 작성한글은 추천이 안됨')
+    else:
+        answer.voter.add(request.user)
+
+    logging.info('2.answer:{}'.format(answer))
+    return redirect('{}#answer_{}'.format(resolve_url('pybo:detail', question_id=answer.question.id), answer.id))
+>>>>>>> efa7429a808fbbe21c0a51675073b5862a297294
 @login_required(login_url='common:login')
 def answer_delete(request, answer_id):
     logging.info('1.answer_delete'.format(answer_id))
@@ -68,8 +85,14 @@ def answer_modify(request, answer_id):
             answer.modify_date = timezone.now()
             logging.info('3.answer_modify POST answer is void:{}'.format(answer))
             answer.save()
+<<<<<<< HEAD
             return redirect('{}#answer_{}'.
                             format(resolve_url('pybo:detail',question_id=answer.question.id),answer.id))
+=======
+            return redirect("pybo:detail", question_id=answer.question.id)
+            return redirect(
+                '{}#answer_{}'.format(resolve_url('pybo:detail', question_id=answer.question.id), answer.id))
+>>>>>>> efa7429a808fbbe21c0a51675073b5862a297294
 
     else:
         form = AnswerForm(instance=answer)
@@ -98,12 +121,16 @@ def answer_create(request, question_id):
             logging.info('3.question.author:{}'.format(answer.author))
 
             answer.save() #최종 저장
+<<<<<<< HEAD
+=======
+            #h
+>>>>>>> efa7429a808fbbe21c0a51675073b5862a297294
             return redirect('{}#answer_{}'.
                             format(resolve_url('pybo:detail',question_id=question.id),answer.id))
     else:
         logging.info('1.else:{}')
         form = AnswerForm()
-
+    #
     #form validation
     context = {'question':question,'form':form}
     return render(request,'pybo/question_detail.html',context)
