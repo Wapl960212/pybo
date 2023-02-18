@@ -39,6 +39,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'board.apps.BoardConfig',
 	'common.apps.CommonConfig',
     'pybo.apps.PyboConfig',
     'django.contrib.admin',
@@ -85,9 +86,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 #name : aproject
 #user : root
-#password : 4321
-#host : localhost
-#post : 3306
+#password: 4321
+#host: localhost
+#post: 3306
 
 DATABASES = {
     'default': {
