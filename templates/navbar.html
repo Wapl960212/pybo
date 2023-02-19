@@ -9,6 +9,9 @@
         <div class="collapse navbar-collapse justify-content-start" >
             <ul class="navbar-nav">
                 <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="{% url 'board:index' %}">게시판</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="{% url 'pybo:boot_list' %}">템플릿_리스트</a>
                 </li>
                 <li class="nav-item">
@@ -45,13 +48,13 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page"
-                 href="#">
+                 href="javascript:window.open('https://cafe.daum.net/pcwk', '_blank');">
                     <i class="bi bi-twitter"></i>
                 </a>
             </li>
             <li class="nav-item">
               <a class="nav-link active" aria-current="page"
-                 href="#">
+                 href="javascript:window.open('https://cafe.daum.net/pcwk', '_blank');">
                   <i class="bi bi-instagram"></i>
               </a>
             </li>
